@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos Aceros de Grijalva</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #0f172a;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+
+        h1 { margin: 0; font-size: 1.5rem; color: var(--primary); }
+
+        .btn-print {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: #dbeafe;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .progress-bar-bg {
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill { height: 100%; transition: width 1s ease-in-out; }
+
+        /* Contenedor de la Gráfica */
+        .chart-container {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #pieChart {
+            max-width: 450px !important;
+            max-height: 450px !important;
+        }
+
+        @media print {
+            .btn-print { display: none; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Portal de Seguimiento Aceros de Grijalva</h1>
+            <p style="color: var(--secondary); margin: 5px 0 0 0;">Actualización de Proyectos 2026</p>
+        </div>
+        <button class="btn-print" onclick="window.print()">Descargar Reporte / Imprimir</button>
+    </header>
+
+    <div class="grid">
+        <div class="card">
+            <strong>Punto de Venta</strong>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" style="width: 80%; background: #3b82f6;"></div>
+            </div>
+            <p style="font-size: 0.8rem; margin: 5px 0 0 0;">Avance: 80%</p>
+        </div>
+
+        <div class="card">
+            <strong>Cotizador Web</strong>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" style="width: 95%; background: #22c55e;"></div>
+            </div>
+            <p style="font-size: 0.8rem; margin: 5px 0 0 0;">Avance: 95%</p>
+        </div>
+
+        <div class="card">
+            <strong>Kardex</strong>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" style="width: 90%; background: #3b82f6;"></div>
+            </div>
+            <p style="font-size: 0.8rem; margin: 5px 0 0 0;">Avance: 90%</p>
+        </div>
+
+        <div class="card">
+            <strong>Curso Web</strong>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" style="width: 50%; background: #f59e0b;"></div>
+            </div>
+            <p style="font-size: 0.8rem; margin: 5px 0 0 0;">Avance: 50%</p>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <h3>Resumen Comparativo (Distribución de Avance)</h3>
+        <canvas id="pieChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Punto de Venta', 'Cotizador Web', 'Kardex', 'Curso Web'],
+            datasets: [{
+                data: [80, 95, 90, 50],
+                backgroundColor: [
+                    '#3b82f6', // Azul
+                    '#22c55e', // Verde
+                    '#8b5cf6', // Morado
+                    '#f59e0b'  // Naranja
+                ],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.raw + '% de avance';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
