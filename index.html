@@ -102,6 +102,8 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .header h1 {
             font-size: 1.75rem;
@@ -285,6 +287,7 @@
             border-collapse: collapse;
             text-align: left;
             font-size: 0.95rem;
+            white-space: nowrap;
         }
         th, td {
             padding: 12px 15px;
@@ -298,10 +301,82 @@
         tr:hover {
             background-color: #f8fafc;
         }
+
+        /* Responsividad optimizada para Tablets y Celulares */
         @media (max-width: 768px) {
-            .sidebar { width: 100%; position: relative; height: auto; }
-            .main-content { margin-left: 0; max-width: 100%; padding: 15px; }
-            body { flex-direction: column; }
+            .sidebar { 
+                width: 100%; 
+                position: relative; 
+                height: auto; 
+            }
+            .main-content { 
+                margin-left: 0; 
+                max-width: 100%; 
+                padding: 15px; 
+            }
+            body { 
+                flex-direction: column; 
+            }
+            /* Adaptación del Gantt en celulares para evitar recortes de texto y colores */
+            .gantt-bar {
+                margin-left: 0 !important;
+                width: 100% !important;
+                justify-content: center;
+                padding-left: 0;
+            }
+            .gantt-label {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+
+            /* Transformación de la tabla a formato de tarjetas en celulares */
+            table, thead, tbody, th, td, tr {
+                display: block;
+                width: 100%;
+                white-space: normal;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                margin-bottom: 15px;
+                background: #f8fafc;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 10px;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 45% !important;
+                text-align: right;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                font-size: 0.9rem;
+            }
+            td:last-child {
+                border-bottom: none;
+            }
+            td::before {
+                position: absolute;
+                top: 8px;
+                left: 10px;
+                width: 40%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: var(--primary-color);
+            }
+            /* Etiquetas dinámicas para cada columna de la tabla */
+            td:nth-of-type(1)::before { content: "Fase/Hito:"; }
+            td:nth-of-type(2)::before { content: "Periodo:"; }
+            td:nth-of-type(3)::before { content: "Responsable:"; }
+            td:nth-of-type(4)::before { content: "Estado:"; }
         }
     </style>
 </head>
@@ -347,7 +422,7 @@
                 <p>Distribuidora de Abarrotes La Y Griega | Plan Maestro de Migración</p>
             </div>
             <div>
-                <span id="fecha-actualizacion" class="badge">📅 Actualizado: Cargando...</span>
+                <span class="badge" id="fecha-actualizacion">📅 Actualizando...</span>
             </div>
         </div>
 
@@ -450,7 +525,7 @@
                             <span class="text-secondary" style="color:#64748b;">0% (Prog.)</span>
                         </div>
                         <div class="progress-bar-bg">
-                            <div class="progress-bar-fill bg-success" style="width: 0%;"></div>
+                            <div class="progress-bar-fill bg-secondary" style="width: 0%;"></div>
                         </div>
                     </div>
                 </div>
@@ -590,7 +665,7 @@
                             <span style="color: #64748b;">19 - 30 Oct</span>
                         </div>
                         <div class="gantt-bar-container">
-                            <div class="gantt-bar bg-success" style="width: 35%; margin-left: 85%;">Programado</div>
+                            <div class="gantt-bar bg-secondary" style="width: 35%; margin-left: 85%;">Programado</div>
                         </div>
                     </div>
                 </div>
@@ -670,31 +745,19 @@
             if(element) element.classList.add('active-tab');
         }
 
-        // Función para actualizar automáticamente la fecha en formato "24 Sep 2026"
-        function actualizarFechaBadge() {
+        // Función para actualizar automáticamente la fecha del badge al día actual en español
+        window.onload = function() {
+            const fechaSpan = document.getElementById('fecha-actualizacion');
             const hoy = new Date();
+            
             const opciones = { day: 'numeric', month: 'short', year: 'numeric' };
-            // Obtenemos la fecha en español (ej. "24 sept. 2026")
+            // Formatea la fecha ej: 24 Sep 2026
             let fechaFormateada = hoy.toLocaleDateString('es-ES', opciones);
             
-            // Limpiamos o ajustamos un poco el formato para que coincida exactamente con tu estilo ("24 Sep 2026")
-            // Reemplazamos los puntos si los hay y ponemos la primera letra del mes en mayúscula
+            // Reemplaza puntos si los hubiera en abreviaturas de meses y ajusta formato
             fechaFormateada = fechaFormateada.replace('.', '');
-            let partes = fechaFormateada.split(' ');
-            if(partes.length >= 3) {
-                partes[1] = partes[1].charAt(0).toUpperCase() + partes[1].slice(1, 3);
-                fechaFormateada = `${partes[0]} ${partes[1]} ${partes[2]}`;
-            }
-
-            const badgeElement = document.getElementById('fecha-actualizacion');
-            if(badgeElement) {
-                badgeElement.innerHTML = `📅 Actualizado: ${fechaFormateada}`;
-            }
-        }
-
-        // Ejecutar al cargar la página
-        window.onload = function() {
-            actualizarFechaBadge();
+            
+            fechaSpan.innerHTML = `📅 Actualizado: ${fechaFormateada}`;
         };
     </script>
 </body>
