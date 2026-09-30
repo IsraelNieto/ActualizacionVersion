@@ -317,7 +317,6 @@
             body { 
                 flex-direction: column; 
             }
-            /* Adaptación del Gantt en celulares para evitar recortes de texto y colores */
             .gantt-bar {
                 margin-left: 0 !important;
                 width: 100% !important;
@@ -329,8 +328,6 @@
                 align-items: flex-start;
                 gap: 2px;
             }
-
-            /* Transformación de la tabla a formato de tarjetas en celulares */
             table, thead, tbody, th, td, tr {
                 display: block;
                 width: 100%;
@@ -372,7 +369,6 @@
                 font-weight: bold;
                 color: var(--primary-color);
             }
-            /* Etiquetas dinámicas para cada columna de la tabla */
             td:nth-of-type(1)::before { content: "Fase/Hito:"; }
             td:nth-of-type(2)::before { content: "Periodo:"; }
             td:nth-of-type(3)::before { content: "Responsable:"; }
@@ -489,10 +485,10 @@
                     <div class="progress-item">
                         <div class="phase-title">
                             <span>3. Recorrido General Funciones</span>
-                            <span class="text-primary">15%</span>
+                            <span class="text-success">100%</span>
                         </div>
                         <div class="progress-bar-bg">
-                            <div class="progress-bar-fill bg-primary" style="width: 15%;"></div>
+                            <div class="progress-bar-fill bg-success" style="width: 100%;"></div>
                         </div>
                     </div>
 
@@ -500,10 +496,10 @@
                     <div class="progress-item">
                         <div class="phase-title">
                             <span>4. Pruebas UAT & Estabilización</span>
-                            <span class="text-warning">0% (Prog.)</span>
+                            <span class="text-primary">En Proceso</span>
                         </div>
                         <div class="progress-bar-bg">
-                            <div class="progress-bar-fill bg-warning" style="width: 0%;"></div>
+                            <div class="progress-bar-fill bg-primary" style="width: 40%;"></div>
                         </div>
                     </div>
 
@@ -558,22 +554,22 @@
                         </div>
                     </div>
 
-                    <!-- Step 3 -->
+                    <!-- Step 3 (Completado) -->
                     <div class="timeline-item">
-                        <div class="timeline-badge bg-primary">3</div>
+                        <div class="timeline-badge bg-success">✓</div>
                         <div class="timeline-content">
                             <h5>Recorrido General de Nuevas Funciones</h5>
-                            <div class="date">📅 25 de Septiembre, 2026</div>
+                            <div class="date">📅 25 de Septiembre, 2026 (Completado)</div>
                             <p>Recorrido técnico y funcional del funcionamiento general de la nueva versión dentro del entorno de pruebas antes de liberar a usuarios clave.</p>
                         </div>
                     </div>
 
-                    <!-- Step 4 -->
+                    <!-- Step 4 (En Proceso) -->
                     <div class="timeline-item">
-                        <div class="timeline-badge bg-warning">4</div>
+                        <div class="timeline-badge bg-primary">⚡</div>
                         <div class="timeline-content">
                             <h5>Pruebas de Usuarios Clave (UAT) y Pendientes</h5>
-                            <div class="date">📅 Del 28 de Septiembre al 16 de Octubre (15 días hábiles)</div>
+                            <div class="date">📅 Del 28 de Septiembre al 16 de Octubre (En Proceso)</div>
                             <p>Validación exhaustiva por parte de los usuarios clave de cada módulo. La semana del 12 al 16 de octubre se destina a estabilizar pendientes por área.</p>
                         </div>
                     </div>
@@ -635,7 +631,7 @@
                             <span style="color: #64748b;">25 Sep</span>
                         </div>
                         <div class="gantt-bar-container">
-                            <div class="gantt-bar bg-primary" style="width: 15%; margin-left: 35%;">En Proceso / Siguiente</div>
+                            <div class="gantt-bar bg-success" style="width: 15%; margin-left: 35%;">Completado</div>
                         </div>
                     </div>
 
@@ -645,7 +641,7 @@
                             <span style="color: #64748b;">28 Sep - 16 Oct</span>
                         </div>
                         <div class="gantt-bar-container">
-                            <div class="gantt-bar bg-warning" style="width: 50%; margin-left: 42%; color: #000;">Programado</div>
+                            <div class="gantt-bar bg-primary" style="width: 40%; margin-left: 42%;">En Proceso</div>
                         </div>
                     </div>
 
@@ -699,13 +695,13 @@
                                 <td>Recorrido General de Funciones</td>
                                 <td>25 Sep 2026</td>
                                 <td>Líder de Proyecto</td>
-                                <td><span style="background: var(--accent-color); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">En Proceso</span></td>
+                                <td><span style="background: var(--success-color); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Completado</span></td>
                             </tr>
                             <tr>
                                 <td>Pruebas de Usuarios Clave & Pendientes</td>
                                 <td>28 Sep - 16 Oct</td>
                                 <td>Usuarios Clave / Áreas</td>
-                                <td><span style="background: #64748b; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Programado</span></td>
+                                <td><span style="background: var(--accent-color); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">En Proceso</span></td>
                             </tr>
                             <tr>
                                 <td>Cambio a Producción</td>
@@ -751,10 +747,8 @@
             const hoy = new Date();
             
             const opciones = { day: 'numeric', month: 'short', year: 'numeric' };
-            // Formatea la fecha ej: 24 Sep 2026
             let fechaFormateada = hoy.toLocaleDateString('es-ES', opciones);
             
-            // Reemplaza puntos si los hubiera en abreviaturas de meses y ajusta formato
             fechaFormateada = fechaFormateada.replace('.', '');
             
             fechaSpan.innerHTML = `📅 Actualizado: ${fechaFormateada}`;
